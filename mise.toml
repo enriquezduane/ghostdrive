@@ -7,6 +7,7 @@ pnpm = "latest"
 NODE_ENV = "development"
 PORT = 3000
 
+# Add these to .env
 POSTGRES_USER = { required = true }
 POSTGRES_PASSWORD = { required = true }
 POSTGRES_DB = { required = true }
