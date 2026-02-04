@@ -7,10 +7,15 @@ pnpm = "latest"
 NODE_ENV = "development"
 PORT = 3000
 
-# Add these to .env
+# load variables from .env file
+_.file = ".env"
+
+# ensure envs are present
 POSTGRES_USER = { required = true }
 POSTGRES_PASSWORD = { required = true }
 POSTGRES_DB = { required = true }
 POSTGRES_PORT = { required = true }
+POSTGRES_HOST = { required = true }
 
-_.file = ".env"
+# construct database URL
+POSTGRES_URL = "postgresql://{{env.POSTGRES_USER}}:{{env.POSTGRES_PASSWORD}}@{{env.POSTGRES_HOST}}:{{env.POSTGRES_PORT}}/{{env.POSTGRES_DB}}"
