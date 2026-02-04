@@ -6,3 +6,10 @@ pnpm = "latest"
 [env]
 NODE_ENV = "development"
 PORT = 3000
+
+POSTGRES_USER = { required = true }
+POSTGRES_PASSWORD = { required = true }
+POSTGRES_DB = { required = true }
+POSTGRES_PORT = { required = true }
+
+_.file = ".env"
