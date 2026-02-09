@@ -19,3 +19,26 @@ POSTGRES_HOST = { required = true }
 
 # construct database URL
 POSTGRES_URL = "postgresql://{{env.POSTGRES_USER}}:{{env.POSTGRES_PASSWORD}}@{{env.POSTGRES_HOST}}:{{env.POSTGRES_PORT}}/{{env.POSTGRES_DB}}"
+
+[tasks.install]
+description = "Install dependencies"
+run = "pnpm install"
+
+[tasks."db:reset"]
+description = "Wipe and restart database"
+run = "docker compose down -v && docker compose up -d"
+
+[tasks."db:wait"]
+description = "Wait for postgres to be ready"
+depends = ["db:reset"]
+run = "sleep 5"
+
+[tasks.start]
+description = "Clean DB, start NestJS, and cleanup on exit"
+alias = "dev"
+depends = ["install","db:wait"]
+# Use a trap to catch the exit signal (Ctrl+C) and run cleanup
+run = """
+trap 'docker compose down -v; exit 0' INT TERM EXIT
+nest start --watch
+"""
